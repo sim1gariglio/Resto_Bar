@@ -105,12 +105,12 @@ h1 {
 .banconota:active {
     transform: scale(0.95);
 }
-.b-50 { background: linear-gradient(135deg, #e67e22, #d35400); } /* Arancione 50€ */
-.b-20 { background: linear-gradient(135deg, #3498db, #2980b9); } /* Blu 20€ */
-.b-10 { background: linear-gradient(135deg, #e74c3c, #c0392b); } /* Rosso 10€ */
-.b-5  { background: linear-gradient(135deg, #2ecc71, #27ae60); } /* Verde 5€ */
+.b-50 { background: linear-gradient(135deg, #e67e22, #d35400); } 
+.b-20 { background: linear-gradient(135deg, #3498db, #2980b9); } 
+.b-10 { background: linear-gradient(135deg, #e74c3c, #c0392b); } 
+.b-5  { background: linear-gradient(135deg, #2ecc71, #27ae60); } 
 
-/* STILE MONETE - COLORI E BORDI DISTINTIVI */
+/* STILE MONETE - BICOLORE E RAME */
 .moneta {
     border-radius: 50%;
     display: flex;
@@ -127,32 +127,11 @@ h1 {
 .moneta:active {
     transform: scale(0.95);
 }
-
-/* 2 Euro: Bicolore esterno oro, interno argento */
-.m-200 { 
-    width: 52px; height: 52px; 
-    background: radial-gradient(circle, #f1c40f 45%, #bdc3c7 46%); 
-    font-size: 14px; 
-    color: #2c3e50; 
-    border: 2px solid #d4ac0d;
-    text-shadow: none;
-}
-/* 1 Euro: Bicolore esterno argento, interno oro */
-.m-100 { 
-    width: 48px; height: 48px; 
-    background: radial-gradient(circle, #bdc3c7 45%, #f1c40f 46%); 
-    font-size: 13px; 
-    color: #2c3e50; 
-    border: 2px solid #95a5a6;
-    text-shadow: none;
-}
-/* 50 Cent (Rame grande) */
+.m-200 { width: 52px; height: 52px; background: radial-gradient(circle, #f1c40f 45%, #bdc3c7 46%); font-size: 14px; color: #2c3e50; border: 2px solid #d4ac0d; text-shadow: none; }
+.m-100 { width: 48px; height: 48px; background: radial-gradient(circle, #bdc3c7 45%, #f1c40f 46%); font-size: 13px; color: #2c3e50; border: 2px solid #95a5a6; text-shadow: none; }
 .m-50  { width: 44px; height: 44px; background: radial-gradient(circle, #f39c12, #b7950b); font-size: 12px; border: 2px solid #9a7d0a; }
-/* 20 Cent (Rame medio con bordo sagomato simulato) */
 .m-20  { width: 40px; height: 40px; background: radial-gradient(circle, #e67e22, #ca6f1e); font-size: 11px; border: 2px dashed #9a7d0a; }
-/* 10 Cent (Rame piccolo) */
 .m-10  { width: 36px; height: 36px; background: radial-gradient(circle, #f39c12, #d68910); font-size: 10px; border: 2px solid #9a7d0a; }
-/* 5 Cent (Rame piccolissimo) */
 .m-5   { width: 32px; height: 32px; background: radial-gradient(circle, #e08283, #a93226); font-size: 9px; border: 2px solid #78281f; }
 
 .selezionata {
@@ -161,8 +140,8 @@ h1 {
     transform: scale(1.06);
 }
 .attivo-resto {
-    border: 3px solid #27ae60 !important;
-    box-shadow: 0 0 12px #27ae60;
+    border: 3px solid #fff !important;
+    box-shadow: 0 0 10px #27ae60;
 }
 .scolorita {
     opacity: 0.25;
@@ -209,24 +188,36 @@ input#prezzo { font-size: 24px; }
     margin: 8px 0;
 }
 
-/* BOX EVIDENTE RESTO IN CIFRA */
-.box-resto-evidente {
-    background: #eaf2f8;
-    border: 2px solid #2980b9;
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
+/* PANNELLO AFFIANCATO PER I DUE TOTALI RESTO */
+.pannello-confronto {
+    display: flex;
+    gap: 10px;
     margin-bottom: 14px;
 }
-.etichetta-resto {
-    font-size: 12px;
+.box-confronto {
+    flex: 1;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+.box-obiettivo {
+    background: #eaf2f8;
+    border: 2px solid #2980b9;
+}
+.box-raggiunto {
+    background: #e8f8f5;
+    border: 2px solid #27ae60;
+}
+.etichetta-confronto {
+    font-size: 11px;
     font-weight: bold;
-    color: #2980b9;
     text-transform: uppercase;
     margin-bottom: 4px;
 }
-.cifra-resto-grande {
-    font-size: 32px;
+.etichetta-obiettivo { color: #2980b9; }
+.etichetta-raggiunto { color: #27ae60; }
+.cifra-confronto {
+    font-size: 24px;
     font-weight: bold;
     color: #2c3e50;
     line-height: 1.1;

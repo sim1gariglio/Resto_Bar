@@ -55,17 +55,23 @@
         <div class="card" id="cardUnificata" style="margin-top: 15px; display:none;">
             <h3>Resto da Consegnare</h3>
             
-            <!-- BOX EVIDENTE RESTO IN CIFRA -->
-            <div class="box-resto-evidente">
-                <div class="etichetta-resto">Totale Resto da Dare</div>
-                <div class="cifra-resto-grande" id="cifraRestoGrandeTxt">0.00 €</div>
+            <!-- DOPPIO BOX AFFIANCATO: OBIETTIVO vs SELEZIONATO -->
+            <div class="pannello-confronto">
+                <div class="box-confronto box-obiettivo">
+                    <div class="etichetta-confronto etichetta-obiettivo">Da Dare</div>
+                    <div class="cifra-confronto" id="cifraRestoGrandeTxt">0.00 €</div>
+                </div>
+                <div class="box-confronto box-raggiunto">
+                    <div class="etichetta-confronto etichetta-raggiunto">Hai Scelto</div>
+                    <div class="cifra-confronto" id="cifraSceltaTxt">0.00 €</div>
+                </div>
             </div>
 
             <div class="sezione-titolo" style="font-size: 11px; margin-bottom: 4px;">Modifica i pezzi con i tasti + e - se necessario</div>
             
             <div class="grid-flex" id="containerUnificato"></div>
 
-            <!-- BARRA VISIVA DEL RESTO DA DARE -->
+            <!-- BARRA VISIVA DEL RESTO DA DARE (PEZZI SEPARATI) -->
             <div class="box-selezionati" id="boxConsegnatoContainer" style="display:none;">
                 <div style="font-size: 13px; font-weight: bold; color: #27ae60; text-align: center; margin-bottom: 6px;">👉 PRENDI E DAI QUESTI PEZZI AL CLIENTE:</div>
                 <div class="consegnato-grid" id="containerConsegnati"></div>

@@ -201,7 +201,6 @@ function renderBanconoteAlte() {
 
         if (count > 0) {
             haElementiRicevuti = true;
-            // Mostra in sequenza fisica ogni singolo pezzo ricevuto
             for (let i = 0; i < count; i++) {
                 let cBox = document.createElement('div');
                 cBox.className = 'consegnato-box';
@@ -292,6 +291,7 @@ function calcolaEImpostaResto() {
 
     if (restoTotaleCentesimi === 0) {
         document.getElementById('containerUnificato').innerHTML = '<div style="text-align:center; color:#27ae60; font-weight:bold; font-size:18px; padding: 15px;">✅ Importo esatto! Nessun resto da dare.</div>';
+        document.getElementById('cifraSceltaTxt').innerText = "0.00 €";
         document.getElementById('boxConsegnatoContainer').style.display = 'none';
         document.getElementById('avvisoCorretto').style.display = 'none';
         document.getElementById('btnConferma').style.display = 'block';
@@ -330,6 +330,7 @@ function renderInterfacciaResto() {
     document.getElementById('cifraRestoGrandeTxt').innerText = `${(restoTotaleCentesimi / 100).toFixed(2)} €`;
 
     let haElementiSelezionati = false;
+    let totaleSelezionatoCentesimi = 0;
 
     tuttiITagli.forEach(t => {
         let box = document.createElement('div');
@@ -341,6 +342,7 @@ function renderInterfacciaResto() {
         if (quantita > 0) {
             el.className = t.classe + ' attivo-resto';
             el.innerHTML = `${t.nome}<div class="badge">${quantita}x</div>`;
+            totaleSelezionatoCentesimi += (t.valore * quantita);
         } else {
             el.className = t.classe + ' scolorita';
             el.innerHTML = t.nome;
@@ -379,7 +381,7 @@ function renderInterfacciaResto() {
         box.appendChild(ctrl);
         container.appendChild(box);
 
-        // Mostra in sequenza fisica ogni singolo pezzo da dare come resto nella barra inferiore
+        // Visualizzazione fisica separata in sequenza nella barra inferiore
         if (quantita > 0) {
             haElementiSelezionati = true;
             for (let i = 0; i < quantita; i++) {
@@ -406,10 +408,10 @@ function renderInterfacciaResto() {
         }
     });
 
-    boxConsegnatoContainer.style.display = haElementiSelezionati ? 'block' : 'none';
+    // Aggiorna il box verde "Hai Scelto" in tempo reale
+    document.getElementById('cifraSceltaTxt').innerText = `${(totaleSelezionatoCentesimi / 100).toFixed(2)} €`;
 
-    let totaleSelezionatoCentesimi = 0;
-    tuttiITagli.forEach(t => totaleSelezionatoCentesimi += t.valore * (restoSelezionatoMappa[t.valore] || 0));
+    boxConsegnatoContainer.style.display = haElementiSelezionati ? 'block' : 'none';
 
     let avviso = document.getElementById('avvisoCorretto');
     let btnConferma = document.getElementById('btnConferma');
