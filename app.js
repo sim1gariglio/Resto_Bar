@@ -285,26 +285,55 @@ function calcolaEImpostaResto() {
         document.getElementById('boxConsegnatoContainer').style.display = 'none';
         document.getElementById('btnConferma').style.display = 'block';
     } else {
-        autoAssegnaRestoOttimale();
+        eseguiCalcoloAutomaticoResto();
         renderInterfacciaResto();
     }
 }
 
-function autoAssegnaRestoOttimale() {
-    let cassaAttuale = caricaCassaAggiornata();
+function eseguiCalcoloAutomaticoResto() {
     let restoCorrente = restoTotaleCentesimi;
+    tuttiITagli.forEach(t => restoSelezionatoMappa[t.valore] = 0);
     let tagliOrdinati = [...tuttiITagli].sort((a, b) => b.valore - a.valore);
 
     for (let t of tagliOrdinati) {
         let necessarie = Math.floor(restoCorrente / t.valore);
         if (necessarie > 0) {
-            let disponibili = cassaAttuale[t.valore] || 0;
-            let daUsare = Math.min(necessarie, disponibili);
-            if (daUsare > 0) {
-                restoSelezionatoMappa[t.valore] = daUsare;
-                restoCorrente -= (daUsare * t.valore);
+            restoSelezionatoMappa[t.valore] = necessarie;
+            restoCorrente -= (necessarie * t.valore);
+        }
+    }
+}
+
+// Scomposizione al volo con gestione protetta del caso limite dei 5 centesimi
+function scomponiTaglio(valoreDaScomporre) {
+    if (restoSelezionatoMappa[valoreDaScomporre] > 0) {
+        restoSelezionatoMappa[valoreDaScomporre]--; // Rimuove 1 pezzo grande
+
+        // CASO LIMITE: I 5 centesimi sono il taglio minimo assoluto
+        if (valoreDaScomporre === 5) {
+            mostraNotifica("⚠️ I 5 centesimi sono il taglio più piccolo disponibile!");
+            restoSelezionatoMappa[valoreDaScomporre]++; // Ripristina il pezzo
+            return;
+        }
+
+        let valoreRimanente = valoreDaScomporre;
+        let tagliOrdinati = [...tuttiITagli].sort((a, b) => b.valore - a.valore);
+
+        for (let t of tagliOrdinati) {
+            if (t.valore < valoreDaScomporre && valoreRimanente >= t.valore) {
+                let quanti = Math.floor(valoreRimanente / t.valore);
+                restoSelezionatoMappa[t.valore] += quanti;
+                valoreRimanente %= t.valore;
+                if (valoreRimanente === 0) break;
             }
         }
+        
+        if (valoreRimanente > 0) {
+            restoSelezionatoMappa[valoreDaScomporre]++;
+            mostraNotifica("⚠️ Impossibile scomporre ulteriormente questo taglio.");
+        }
+
+        renderInterfacciaResto();
     }
 }
 
@@ -319,17 +348,13 @@ function renderInterfacciaResto() {
 
     document.getElementById('cifraRestoGrandeTxt').innerText = `${(restoTotaleCentesimi / 100).toFixed(2)} €`;
 
-    let haElementiSelezionati = false;
     let totaleSelezionatoCentesimi = 0;
+    let haElementiSelezionati = false;
 
     tuttiITagli.forEach(t => {
-        let box = document.createElement('div');
-        box.className = 'box-elemento';
-
         let quantita = restoSelezionatoMappa[t.valore] || 0;
-
-        // ELEMENTO CLICCABILE CON BADGE IN ALTO A DESTRA
         let el = document.createElement('div');
+
         if (quantita > 0) {
             el.className = t.classe + ' attivo-resto';
             el.innerHTML = `${t.nome}<div class="badge">${quantita}x</div>`;
@@ -338,23 +363,9 @@ function renderInterfacciaResto() {
             el.className = t.classe + ' scolorita';
             el.innerHTML = t.nome;
         }
-        
-        // Cliccando sull'immagine del taglio si aggiunge un pezzo al resto
-        el.onclick = () => {
-            let cassaAttuale = caricaCassaAggiornata();
-            let disponibili = cassaAttuale[t.valore] || 0;
-            if (quantita < disponibili) {
-                restoSelezionatoMappa[t.valore] = quantita + 1;
-                renderInterfacciaResto();
-            } else {
-                mostraNotifica(`⚠️ Non ci sono altri pezzi da ${t.nome} in cassa!`);
-            }
-        };
+        container.appendChild(el);
 
-        box.appendChild(el);
-        container.appendChild(box);
-
-        // BARRA IN BASSO DEI PEZZI SEPARATI (CON PULSANTE DI RIMOZIONE SINGOLO)
+        // Barra in basso dei pezzi singoli con tasto ✕ Cambia per scomporsi al volo
         if (quantita > 0) {
             haElementiSelezionati = true;
             for (let i = 0; i < quantita; i++) {
@@ -366,23 +377,20 @@ function renderInterfacciaResto() {
                 cEl.innerHTML = t.nome;
                 cBox.appendChild(cEl);
 
-                let btnRimuovi = document.createElement('button');
-                btnRimuovi.className = 'btn-piccolo';
-                btnRimuovi.style.marginTop = '4px';
-                btnRimuovi.style.color = '#c0392b';
-                btnRimuovi.innerText = 'Rimuovi';
-                btnRimuovi.onclick = () => {
-                    restoSelezionatoMappa[t.valore]--;
-                    renderInterfacciaResto();
-                };
-                cBox.appendChild(btnRimuovi);
+                let btnScomponi = document.createElement('button');
+                btnScomponi.className = 'btn-piccolo';
+                btnScomponi.style.marginTop = '4px';
+                btnScomponi.style.color = '#c0392b';
+                btnScomponi.innerText = '✕ Cambia';
+                btnScomponi.onclick = () => scomponiTaglio(t.valore);
+                cBox.appendChild(btnScomponi);
+
                 containerConsegnati.appendChild(cBox);
             }
         }
     });
 
     document.getElementById('cifraSceltaTxt').innerText = `${(totaleSelezionatoCentesimi / 100).toFixed(2)} €`;
-
     boxConsegnatoContainer.style.display = haElementiSelezionati ? 'block' : 'none';
 
     let btnConferma = document.getElementById('btnConferma');

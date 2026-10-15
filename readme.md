@@ -18,7 +18,8 @@ Il progetto segue rigorosamente il principio *Single-File / Vanilla Stack*, senz
 
 ### 🚀 Versione 1.2 (Corrente)
 - **Interfaccia Iper-compatta:** Rimossi il tasto "Annulla ultimo" e le scritte superflue, garantendo che l'intera schermata operativa rientri perfettamente in una sola vista mobile.
-- **Interazione Diretta sui Tagli:** Cliccando direttamente sui tagli del resto si aggiungono pezzi, con aggiornamento immediato del badge numerico in alto a destra.
+- **Griglia Interattiva dei Tagli:** Cliccando direttamente sui tagli del resto si aggiungono pezzi, con aggiornamento immediato del badge numerico e della barra di confronto visivo ("Da Dare" vs "Hai Scelto").
+- **Scomposizione Rapida al Volo:** Nella barra inferiore dei pezzi da prendere, ogni banconota o moneta include un pulsante *"✕ Cambia"* per scomporre istantaneamente un pezzo nei tagli immediatamente inferiori (es. un 20€ in due da 10€), con protezione integrata e avviso per il limite minimo dei 5 centesimi.
 - **Feedback di Conferma Animato:** Pulsante *"COMPLETA TRANSAZIONE"* con comparsa condizionale e animazione di evidenziazione attivata solo al raggiungimento esatto del resto.
 - **Robustezza dello Storico:** Migliorata la persistenza delle transazioni con dettaglio dei pezzi ricevuti ed erogati per singolo scontrino.
 
