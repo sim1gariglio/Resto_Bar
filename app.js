@@ -291,9 +291,9 @@ function calcolaEImpostaResto() {
 
     if (restoTotaleCentesimi === 0) {
         document.getElementById('containerUnificato').innerHTML = '<div style="text-align:center; color:#27ae60; font-weight:bold; font-size:18px; padding: 15px;">✅ Importo esatto! Nessun resto da dare.</div>';
+        document.getElementById('boxSceltaConfronto').classList.add('ok');
         document.getElementById('cifraSceltaTxt').innerText = "0.00 €";
         document.getElementById('boxConsegnatoContainer').style.display = 'none';
-        document.getElementById('avvisoCorretto').style.display = 'none';
         document.getElementById('btnConferma').style.display = 'block';
     } else {
         autoAssegnaRestoOttimale();
@@ -323,6 +323,7 @@ function renderInterfacciaResto() {
     const container = document.getElementById('containerUnificato');
     const containerConsegnati = document.getElementById('containerConsegnati');
     const boxConsegnatoContainer = document.getElementById('boxConsegnatoContainer');
+    const boxSceltaConfronto = document.getElementById('boxSceltaConfronto');
     
     container.innerHTML = '';
     containerConsegnati.innerHTML = '';
@@ -381,7 +382,6 @@ function renderInterfacciaResto() {
         box.appendChild(ctrl);
         container.appendChild(box);
 
-        // Visualizzazione fisica separata in sequenza nella barra inferiore
         if (quantita > 0) {
             haElementiSelezionati = true;
             for (let i = 0; i < quantita; i++) {
@@ -408,19 +408,17 @@ function renderInterfacciaResto() {
         }
     });
 
-    // Aggiorna il box verde "Hai Scelto" in tempo reale
     document.getElementById('cifraSceltaTxt').innerText = `${(totaleSelezionatoCentesimi / 100).toFixed(2)} €`;
 
     boxConsegnatoContainer.style.display = haElementiSelezionati ? 'block' : 'none';
 
-    let avviso = document.getElementById('avvisoCorretto');
     let btnConferma = document.getElementById('btnConferma');
 
     if (totaleSelezionatoCentesimi === restoTotaleCentesimi && restoTotaleCentesimi > 0) {
-        avviso.style.display = 'block';
+        boxSceltaConfronto.classList.add('ok');
         btnConferma.style.display = 'block';
     } else {
-        avviso.style.display = 'none';
+        boxSceltaConfronto.classList.remove('ok');
         btnConferma.style.display = 'none';
     }
 }
