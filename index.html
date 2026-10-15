@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Cassa & Resto Bar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Calcolo Cambio Bar</h1>
+
+    <div id="notificationBanner" class="notification-banner"></div>
+
+    <!-- NAVIGAZIONE A TAB (3 PAGINE) -->
+    <div class="nav-bar">
+        <button class="nav-btn attivo" onclick="cambiaPagina('resto')">💶 Dare Resto</button>
+        <button class="nav-btn" onclick="cambiaPagina('cassa')">📦 Gestione Cassa</button>
+        <button class="nav-btn" onclick="cambiaPagina('storico')">📜 Storico</button>
+    </div>
+
+    <!-- ==================== PAGINA 1: DARE IL RESTO ==================== -->
+    <div id="pagResto" class="pagina attiva">
+        <div class="card card-prezzo">
+            <label style="font-size:13px; font-weight:bold; color: #2980b9; display:block; text-align:center; margin-bottom:4px;">NOME OGGETTO (Facoltativo)</label>
+            <input type="text" id="nomeOggetto" class="input-testo" placeholder="Es. Caffè, Brioche, Spritz..." autocomplete="off">
+
+            <label style="font-size:15px; font-weight:bold; color: #2980b9; display:block; text-align:center; margin-bottom:6px;">PREZZO DELL'OGGETTO (€)</label>
+            <input type="number" id="prezzo" inputmode="decimal" pattern="[0-9]*" step="0.05" placeholder="0.00" autocomplete="off">
+        </div>
+
+        <div class="card">
+            <h3>Soldi ricevuti dal cliente</h3>
+            <div class="sezione-titolo">Banconote ricevute:</div>
+            <div class="container-denaro" id="banconoteAlte"></div>
+
+            <div class="sezione-titolo">Monete ricevute:</div>
+            <div class="container-denaro" id="moneteAlte"></div>
+
+            <div class="box-selezionati" id="boxClienteContainer" style="display:none;">
+                <div style="font-size: 13px; font-weight: bold; color: #2980b9; text-align: center; margin-bottom: 6px;">PEZZI RICEVUTI:</div>
+                <div class="consegnato-grid" id="containerRicevutiSelezionati"></div>
+            </div>
+
+            <div class="totale-ricevuto" id="totaleRicevutoTxt">Ricevuto: 0.00 €</div>
+            
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button class="btn-piccolo" style="color: #d35400;" onclick="annullaUltimoInserimento()">↩ Annulla ultimo</button>
+                <button class="btn-piccolo" style="color: #c0392b;" onclick="resetSchermata()">🗑 Reset</button>
+            </div>
+        </div>
+
+        <button class="btn-azione" onclick="calcolaEImpostaResto()">🧮 CALCOLA RESTO</button>
+
+        <div class="card" id="cardUnificata" style="margin-top: 15px; display:none;">
+            <h3>Resto da Consegnare</h3>
+            
+            <!-- BOX EVIDENTE RESTO IN CIFRA -->
+            <div class="box-resto-evidente">
+                <div class="etichetta-resto">Totale Resto da Dare</div>
+                <div class="cifra-resto-grande" id="cifraRestoGrandeTxt">0.00 €</div>
+            </div>
+
+            <div class="sezione-titolo" style="font-size: 11px; margin-bottom: 4px;">Modifica i pezzi con i tasti + e - se necessario</div>
+            
+            <div class="grid-flex" id="containerUnificato"></div>
+
+            <!-- BARRA VISIVA DEL RESTO DA DARE -->
+            <div class="box-selezionati" id="boxConsegnatoContainer" style="display:none;">
+                <div style="font-size: 13px; font-weight: bold; color: #27ae60; text-align: center; margin-bottom: 6px;">👉 PRENDI E DAI QUESTI PEZZI AL CLIENTE:</div>
+                <div class="consegnato-grid" id="containerConsegnati"></div>
+            </div>
+
+            <!-- SIMBOLO VISIVO DI OK / CONFERMA -->
+            <div id="avvisoCorretto" class="stato-corretto">
+                <div class="simbolo-check">✔</div>
+                <div class="testo-check">TUTTO CORRETTO! DAI I PEZZI SOPRA</div>
+            </div>
+        </div>
+
+        <button class="btn-azione btn-conferma" id="btnConferma" onclick="confermaTransazione()">💾 CONFERMA TRANSAZIONE</button>
+    </div>
+
+    <!-- ==================== PAGINA 2: GESTIONE CASSA ==================== -->
+    <div id="pagCassa" class="pagina">
+        <div class="card" style="background: #fdfefe; border: 2px solid #bdc3c7;">
+            <h3>📦 STATO E QUANTITÀ CASSA</h3>
+            <div class="sezione-titolo">Usa i tasti + e - per modificare le quantità</div>
+            <div class="cassa-grid" id="containerCassaGrid"></div>
+        </div>
+    </div>
+
+    <!-- ==================== PAGINA 3: STORICO ==================== -->
+    <div id="pagStorico" class="pagina">
+        <div class="card" style="background: #fef9e7; border: 2px solid #f39c12;">
+            <h3>📜 Storico Dettagliato Transazioni</h3>
+            <div id="containerStorico" style="max-height: 400px; overflow-y: auto;">
+                <p style="text-align: center; color: #7f8c8d; font-size: 13px;">Nessuna transazione registrata.</p>
+            </div>
+            <button class="btn-piccolo" style="margin-top: 10px; color: #c0392b; width: 100%;" onclick="pulisciStorico()">🗑 Svuota Storico</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
