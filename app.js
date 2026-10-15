@@ -201,27 +201,28 @@ function renderBanconoteAlte() {
 
         if (count > 0) {
             haElementiRicevuti = true;
-            let cBox = document.createElement('div');
-            cBox.className = 'consegnato-box';
+            // Mostra in sequenza fisica ogni singolo pezzo ricevuto
+            for (let i = 0; i < count; i++) {
+                let cBox = document.createElement('div');
+                cBox.className = 'consegnato-box';
 
-            let cEl = document.createElement('div');
-            cEl.className = t.classe;
-            cEl.innerHTML = `${t.nome}<div class="badge">${count}x</div>`;
-            cBox.appendChild(cEl);
+                let cEl = document.createElement('div');
+                cEl.className = t.classe;
+                cEl.innerHTML = t.nome;
+                cBox.appendChild(cEl);
 
-            let btnRimuovi = document.createElement('button');
-            btnRimuovi.className = 'btn-piccolo';
-            btnRimuovi.style.marginTop = '6px';
-            btnRimuovi.style.color = '#c0392b';
-            btnRimuovi.innerText = 'Rimuovi (-1)';
-            btnRimuovi.onclick = () => {
-                if (ricevutoCounts[t.valore] > 0) {
+                let btnRimuovi = document.createElement('button');
+                btnRimuovi.className = 'btn-piccolo';
+                btnRimuovi.style.marginTop = '4px';
+                btnRimuovi.style.color = '#c0392b';
+                btnRimuovi.innerText = 'Rimuovi';
+                btnRimuovi.onclick = () => {
                     ricevutoCounts[t.valore]--;
                     renderBanconoteAlte();
-                }
-            };
-            cBox.appendChild(btnRimuovi);
-            containerRicevutiSelezionati.appendChild(cBox);
+                };
+                cBox.appendChild(btnRimuovi);
+                containerRicevutiSelezionati.appendChild(cBox);
+            }
         }
     });
 
@@ -378,27 +379,30 @@ function renderInterfacciaResto() {
         box.appendChild(ctrl);
         container.appendChild(box);
 
+        // Mostra in sequenza fisica ogni singolo pezzo da dare come resto nella barra inferiore
         if (quantita > 0) {
             haElementiSelezionati = true;
-            let cBox = document.createElement('div');
-            cBox.className = 'consegnato-box';
+            for (let i = 0; i < quantita; i++) {
+                let cBox = document.createElement('div');
+                cBox.className = 'consegnato-box';
 
-            let cEl = document.createElement('div');
-            cEl.className = t.classe;
-            cEl.innerHTML = `${t.nome}<div class="badge">${quantita}x</div>`;
-            cBox.appendChild(cEl);
+                let cEl = document.createElement('div');
+                cEl.className = t.classe;
+                cEl.innerHTML = t.nome;
+                cBox.appendChild(cEl);
 
-            let btnRimuovi = document.createElement('button');
-            btnRimuovi.className = 'btn-piccolo';
-            btnRimuovi.style.marginTop = '6px';
-            btnRimuovi.style.color = '#c0392b';
-            btnRimuovi.innerText = 'Rimuovi';
-            btnRimuovi.onclick = () => {
-                restoSelezionatoMappa[t.valore]--;
-                renderInterfacciaResto();
-            };
-            cBox.appendChild(btnRimuovi);
-            containerConsegnati.appendChild(cBox);
+                let btnRimuovi = document.createElement('button');
+                btnRimuovi.className = 'btn-piccolo';
+                btnRimuovi.style.marginTop = '4px';
+                btnRimuovi.style.color = '#c0392b';
+                btnRimuovi.innerText = 'Rimuovi';
+                btnRimuovi.onclick = () => {
+                    restoSelezionatoMappa[t.valore]--;
+                    renderInterfacciaResto();
+                };
+                cBox.appendChild(btnRimuovi);
+                containerConsegnati.appendChild(cBox);
+            }
         }
     });
 
