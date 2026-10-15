@@ -8,28 +8,40 @@ Un'applicazione web leggera, moderna e ottimizzata per dispositivi mobili pensat
 
 Il progetto segue rigorosamente il principio *Single-File / Vanilla Stack*, senza la necessità di complessi framework o dipendenze esterne:
 
-* **`index.html`**: Struttura principale dell'interfaccia utente basata su navigazione a tab (Pagina Dare Resto, Gestione Cassa e Storico).
-* **`style.css`**: Fogli di stile personalizzati, responsive, con palette colori ispirate alle banconote BCE reali e alle monete euro, ottimizzati per l'utilizzo touch su smartphone.
-* **`app.js`**: Logica applicativa, gestione dello stato tramite `localStorage`, calcoli matematici del resto (gestione centesimi in interi) e interattività dell'interfaccia.
+- **`index.html`**: Struttura principale dell'interfaccia utente basata su navigazione a tab (Pagina Dare Resto, Gestione Cassa e Storico).
+- **`style.css`**: Fogli di stile personalizzati, responsive, con palette colori ispirate alle banconote BCE reali e alle monete euro, ottimizzati per l'utilizzo touch su smartphone.
+- **`app.js`**: Logica applicativa, gestione dello stato tramite `localStorage`, calcoli matematici del resto (gestione centesimi in interi) e interattività dell'interfaccia.
 
 ---
 
 ## 📜 Cronologia delle Versioni
 
 ### 🚀 Versione 1.2 (Corrente)
-* **Rimozione Tasto "Annulla Ultimo":** Semplificata ulteriormente l'interfaccia eliminando il pulsante di annullamento dell'ultima selezione per lasciare spazio unicamente al reset globale rapido.
-* **Miglioramenti UI/UX:** Rafforzata la responsività del pannello di confronto e ottimizzati i feedback visivi (pulsanti di conferma con animazioni a scomparsa/comparsa condizionale).
-* **Robustezza dello Storico:** Migliorata la persistenza delle transazioni con dettaglio dei pezzi ricevuti ed erogati per singolo scontrino.
+- **Interfaccia Iper-compatta:** Rimossi il tasto "Annulla ultimo" e le scritte superflue, garantendo che l'intera schermata operativa rientri perfettamente in una sola vista mobile.
+- **Interazione Diretta sui Tagli:** Cliccando direttamente sui tagli del resto si aggiungono pezzi, con aggiornamento immediato del badge numerico in alto a destra.
+- **Feedback di Conferma Animato:** Pulsante *"COMPLETA TRANSAZIONE"* con comparsa condizionale e animazione di evidenziazione attivata solo al raggiungimento esatto del resto.
+- **Robustezza dello Storico:** Migliorata la persistenza delle transazioni con dettaglio dei pezzi ricevuti ed erogati per singolo scontrino.
 
 ### 🛠 Versione 1.1
-* **Introduzione del Doppio Box di Confronto:** Aggiunto il pannello affiancato tra l'obiettivo del resto ("Da Dare") e la selezione attuale ("Hai Scelto").
-* **Gestione Dinamica della Cassa:** Integrazione dei pulsanti `+` e `-` nella sezione cassa per permettere modifiche manuali rapide dell'inventario dei singoli tagli.
-* **Storico Dettagliato:** Implementazione della lista transazioni espandibile con salvataggio automatico su `localStorage`.
+- **Introduzione del Doppio Box di Confronto:** Aggiunto il pannello affiancato tra l'obiettivo del resto ("Da Dare") e la selezione attuale ("Hai Scelto").
+- **Gestione Dinamica della Cassa:** Integrazione dei pulsanti `+` e `-` nella sezione cassa per permettere modifiche manuali rapide dell'inventario dei singoli tagli.
+- **Storico Dettagliato:** Implementazione della lista transazioni espandibile con salvataggio automatico su `localStorage`.
 
 ### 🌱 Versione 1.0 (Rilascio Iniziale)
-* **Funzionalità Core:** Calcolo basilare del resto basato sulle banconote e monete ricevute dal cliente.
-* **Interfaccia Tattile:** Prime basi grafiche per la selezione rapida di tagli monetari e banconote.
-* **Struttura Modulare Base:** Prima suddivisione logica in file HTML, CSS e JS puri.
+- **Funzionalità Core:** Calcolo basilare del resto basato sulle banconote e monete ricevute dal cliente.
+- **Interfaccia Tattile:** Prime basi grafiche per la selezione rapida di tagli monetari e banconote.
+- **Struttura Modulare Base:** Prima suddivisione logica in file HTML, CSS e JS puri.
+
+---
+
+## 🚀 Roadmap Futura
+
+### 🟡 Versione 2.0
+- **Preset Prodotti Fissi:** Introduzione di pulsanti rapidi per i prodotti più comuni del bar (es. Caffè, Brioche, Acqua) con prezzo fisso preimpostato.
+- **Feedback dal Campo:** Ulteriori affinamenti basati sui test operativi effettuati direttamente al banco.
+
+### 🔵 Versione 3.0
+- **Introduzione del Database:** Abbandono del solo `localStorage` in favore di un database strutturato per una gestione dati più solida e persistente.
 
 ---
 
