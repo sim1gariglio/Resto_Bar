@@ -16,7 +16,6 @@ tuttiITagli.forEach(t => { if(cassaInventory[t.valore] === undefined) cassaInven
 
 let storicoTransazioni = JSON.parse(localStorage.getItem('cassa_storico')) || [];
 let ricevutoCounts = {};
-let cronologiaInserimenti = [];
 let restoSelezionatoMappa = {};
 let restoTotaleCentesimi = 0;
 
@@ -231,22 +230,12 @@ function renderBanconoteAlte() {
 
 function aggiungiRicevuto(valore) {
     ricevutoCounts[valore]++;
-    cronologiaInserimenti.push(valore);
     renderBanconoteAlte();
-}
-
-function annullaUltimoInserimento() {
-    if (cronologiaInserimenti.length > 0) {
-        let ultimo = cronologiaInserimenti.pop();
-        if (ricevutoCounts[ultimo] > 0) ricevutoCounts[ultimo]--;
-        renderBanconoteAlte();
-    }
 }
 
 function resetSchermata() {
     tuttiITagli.forEach(t => ricevutoCounts[t.valore] = 0);
     tuttiITagli.forEach(t => restoSelezionatoMappa[t.valore] = 0);
-    cronologiaInserimenti = [];
     document.getElementById('nomeOggetto').value = '';
     document.getElementById('prezzo').value = '';
     document.getElementById('btnConferma').style.display = 'none';
@@ -337,9 +326,10 @@ function renderInterfacciaResto() {
         let box = document.createElement('div');
         box.className = 'box-elemento';
 
-        let el = document.createElement('div');
         let quantita = restoSelezionatoMappa[t.valore] || 0;
 
+        // ELEMENTO CLICCABILE CON BADGE IN ALTO A DESTRA
+        let el = document.createElement('div');
         if (quantita > 0) {
             el.className = t.classe + ' attivo-resto';
             el.innerHTML = `${t.nome}<div class="badge">${quantita}x</div>`;
@@ -348,40 +338,23 @@ function renderInterfacciaResto() {
             el.className = t.classe + ' scolorita';
             el.innerHTML = t.nome;
         }
-        box.appendChild(el);
-
-        let ctrl = document.createElement('div');
-        ctrl.className = 'resto-controls';
-
-        let btnMeno = document.createElement('button');
-        btnMeno.innerText = '-';
-        btnMeno.onclick = () => {
-            if ((restoSelezionatoMappa[t.valore] || 0) > 0) {
-                restoSelezionatoMappa[t.valore]--;
-                renderInterfacciaResto();
-            }
-        };
-
-        let btnPiu = document.createElement('button');
-        btnPiu.innerText = '+';
-        btnPiu.onclick = () => {
+        
+        // Cliccando sull'immagine del taglio si aggiunge un pezzo al resto
+        el.onclick = () => {
             let cassaAttuale = caricaCassaAggiornata();
             let disponibili = cassaAttuale[t.valore] || 0;
-            let attualmenteScelti = restoSelezionatoMappa[t.valore] || 0;
-
-            if (attualmenteScelti < disponibili) {
-                restoSelezionatoMappa[t.valore] = attualmenteScelti + 1;
+            if (quantita < disponibili) {
+                restoSelezionatoMappa[t.valore] = quantita + 1;
                 renderInterfacciaResto();
             } else {
                 mostraNotifica(`⚠️ Non ci sono altri pezzi da ${t.nome} in cassa!`);
             }
         };
 
-        ctrl.appendChild(btnMeno);
-        ctrl.appendChild(btnPiu);
-        box.appendChild(ctrl);
+        box.appendChild(el);
         container.appendChild(box);
 
+        // BARRA IN BASSO DEI PEZZI SEPARATI (CON PULSANTE DI RIMOZIONE SINGOLO)
         if (quantita > 0) {
             haElementiSelezionati = true;
             for (let i = 0; i < quantita; i++) {

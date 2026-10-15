@@ -298,7 +298,7 @@ input#prezzo { font-size: 24px; }
 .grid-flex, .cassa-grid, .consegnato-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
     margin-top: 8px;
 }
@@ -306,29 +306,7 @@ input#prezzo { font-size: 24px; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #fafafa;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid #eee;
 }
-
-.resto-controls {
-    display: flex;
-    gap: 4px;
-    margin-top: 6px;
-}
-.resto-controls button {
-    width: 32px;
-    height: 30px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    background: #e2e8f0;
-    color: #333;
-}
-.resto-controls button:active { background: #cbd5e1; }
 
 .cassa-controls {
     display: flex;
